@@ -5,22 +5,26 @@ using UnityEngine;
 public class ObjController : MonoBehaviour {
 
 
-	public Sprite[] sprites =new Sprite[5];
-	private SpriteRenderer sprite;
-	public int defaultSprite = 0;
+	
+	private SpriteRenderer spriteR;
+	public Sprite sprite;
+
 	public PhysicsMaterial2D material;
 	// Use this for initialization
 	void Start () {
-		sprite = GetComponent<SpriteRenderer> ();
-		sprite.sprite = sprites[defaultSprite];
+		spriteR = GetComponent<SpriteRenderer> ();
+		spriteR.sprite = sprite;
 		Destroy(GetComponent<PolygonCollider2D>());
 		PolygonCollider2D polygon = gameObject.AddComponent<PolygonCollider2D>() as PolygonCollider2D;
 		polygon.sharedMaterial = material;
 	}
 
+	public void setSprite(Sprite sprite_){
+		sprite = sprite_;
+	}
 
-	public void  changeSprite(){
-		sprite.sprite = sprites[defaultSprite];
+	public void  updateCollider(){
+		spriteR.sprite = sprite;
 		Destroy(GetComponent<PolygonCollider2D>());
 		PolygonCollider2D polygon = gameObject.AddComponent<PolygonCollider2D>() as PolygonCollider2D;
 		polygon.sharedMaterial = material;

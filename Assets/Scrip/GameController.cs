@@ -4,15 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class GameController : MonoBehaviour {
-	Ray ray;
-	RaycastHit hit;
+
+
+	public Sprite[] rampSprites;
+	public int spriteIndex = 0;
+	public Image imgObjSelected;
+	public GameObject EditModeCanvas;
 
 
 	public float boardH = 6;
 	public float boardW = 2;
 
-	public Text spriteNumber;
-	public int sprite = 1;
+
 	public GameObject rampa;
 	private GameObject newRamp;
 
@@ -24,15 +27,14 @@ public class GameController : MonoBehaviour {
 	public int cameraIndex = 0;
 	private int cameraNumber;
 	void Start () {
-		spriteNumber.text = sprite+"";
 		cameraNumber = cameras.Length;
 	}
 
 	void nextSprite(){
-		sprite++;
-		if (sprite >= 8)
-			sprite = 0;
-		spriteNumber.text = sprite + "";
+		spriteIndex++;
+		if (spriteIndex >= rampSprites.Length)
+			spriteIndex = 0;
+
 	}
 
 	Vector3 getNewPos(){
@@ -44,11 +46,12 @@ public class GameController : MonoBehaviour {
 
 	void rampEditor(){
 		if (editMode) {
+			EditModeCanvas.SetActive(true);
 			if (Input.GetKeyDown (KeyCode.X)) {
 				nextSprite ();
 				if (setRamp) {
-					newRamp.GetComponent<ObjController> ().defaultSprite = sprite;
-					newRamp.GetComponent<ObjController> ().changeSprite ();
+					newRamp.GetComponent<ObjController> ().setSprite(rampSprites[spriteIndex]);
+					newRamp.GetComponent<ObjController> ().updateCollider();
 				}
 			}
 			if (Input.GetMouseButtonDown (1)) {
@@ -61,7 +64,9 @@ public class GameController : MonoBehaviour {
 				setRamp = true;
 				Vector3 newPos = getNewPos ();
 				newRamp = Instantiate (rampa, newPos, Quaternion.identity);
-				newRamp.GetComponent<ObjController> ().defaultSprite = sprite;
+				newRamp.GetComponent<ObjController> ().setSprite(rampSprites[spriteIndex]);
+				
+				
 			} else {
 				newRamp.transform.position = getNewPos();
 			}
@@ -69,6 +74,7 @@ public class GameController : MonoBehaviour {
 				setRamp = false;
 			}
 		} else {
+			EditModeCanvas.SetActive(false);
 			if (setRamp) {
 				setRamp = false;
 				Destroy (newRamp);

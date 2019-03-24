@@ -18,11 +18,11 @@ public class CarController : MonoBehaviour {
 
 	public float groundGravity = 1f;
 	public float airGravity = 0.5f;
-	public float speed = 1500f;
-	private float tempSpeed=0f;
+	private float speed = 0;
+	public float maxSpeed=2500f;
 	private float movement = 0f;
 	private float rotation =0f;
-	public float rotationSpeed = 15f;
+	private float rotationSpeed = 0f;
 	public float jumpForce = 100f;
 	private bool jumpTime = false;
 	private int jumpCount = 0;
@@ -30,24 +30,21 @@ public class CarController : MonoBehaviour {
 	private float jump_timer =0;
 	private float jump_timer_seconds=1f;
 
-	private float rotationSpeedTemp = 15f;
+	public float groundRotationSpeed = 15f;
 	public float airRotationSpeed = 15f;
 	public float deceleration=300f;
 	public float aceleration=300f;
-	private bool brake = false;
 	private bool wheelOngroundB=false;
 	private bool wheelOngroundF=false;
 	private bool carOnGround = false;
 
+	private float lastMovement = 0f;
+	private bool isDeceleration = false;
+	private bool isDecelerationRelease = false;
+
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
-		tempSpeed = speed;
-		speed = 0;
-		rotationSpeedTemp = rotationSpeed;
-
-		motorTimer = motorTimerMax;
-
 	}
 
 	public void restart(){
@@ -86,7 +83,7 @@ public class CarController : MonoBehaviour {
 		} else {
 			carOnGround = true;
 			setGravity (groundGravity);
-			rotationSpeed = rotationSpeedTemp;
+			rotationSpeed = groundRotationSpeed;
 			if (jump_timer <= 0f) {
 				jumpTime = false;
 				jumpCount = 0;
@@ -136,69 +133,89 @@ public class CarController : MonoBehaviour {
 			checkOnGround ();
 			jump ();
 
-
-			//Debug.Log ("Movement "+ movement);
 		}
 
 		test ();
 	}
 
-	void breaking(){
-		if (Input.GetKey (KeyCode.C)) {
-			brake = true;
-			speed = 0f;
-		} else {
-			brake = false;
-			speed = tempSpeed;
-		}
-	}
-		
-	private bool motorBreak = false;
-	private float motorTimer=0.5f;
-	public float motorTimerMax = 0.5f;
-	public float lastMovement = 0f;
+
 	void FixedUpdate(){
-		/*if (brake) {
-			wheelB.useMotor = true;
-			wheelF.useMotor = true;
-			wheelB.breakTorque = brakeSpeed;
-			wheelF.breakTorque = brakeSpeed;
-		}*/
-
-		if (movement != 0f) {
-			wheelB.useMotor = true;
-			wheelF.useMotor = true;
-			if (lastMovement != movement ) {
-
-				speed -= deceleration;
-				if (speed <= 0) {
-					speed = 0;
-					lastMovement = movement;
-				}
-				JointMotor2D motor = new JointMotor2D{ motorSpeed = lastMovement * speed, maxMotorTorque = wheelB.motor.maxMotorTorque };	
-				wheelB.motor = motor;
-				wheelF.motor = motor;
-
-			} else {
-				speed += aceleration;
-				if(speed>=tempSpeed)
-					speed = tempSpeed;
-
-				JointMotor2D motor = new JointMotor2D{ motorSpeed = movement * speed, maxMotorTorque = wheelB.motor.maxMotorTorque };	
-				wheelB.motor = motor;
-				wheelF.motor = motor;
-			}
-		
-		} else {
-			
-
-			wheelB.useMotor = false;
-			wheelF.useMotor = false;
-		}
-
-	
-		rb.AddTorque (-rotation * rotationSpeed * Time.fixedDeltaTime);
+		if(carOnGround)
+			Run();
+		else
+			Rotate();
 	}
+
+    void setMotor(float speed_)
+    { 
+		JointMotor2D motor = new JointMotor2D { motorSpeed = speed_, maxMotorTorque = wheelB.motor.maxMotorTorque };
+        wheelB.motor = motor;
+        wheelF.motor = motor;
+
+    }
+    void setUseMotor(bool use)
+    {
+        wheelB.useMotor = use;
+        wheelF.useMotor = use;
+
+    }
+	void Rotate(){
+		setUseMotor(false);
+		 rb.AddTorque(-movement * rotationSpeed * Time.fixedDeltaTime);
+		
+	}
+    void Run()
+    {
+		
+        if (movement != 0f)
+        {
+            setUseMotor(true);
+
+            if (lastMovement != movement)
+            {
+                isDeceleration = true;
+
+                if (rb.velocity.x > -1 && rb.velocity.x < 1) speed = 0;
+
+                if (isDecelerationRelease)
+                {
+                    speed = 0;
+                }
+
+                speed -= deceleration;
+
+                if (speed <= 0)
+                {
+                    speed = 0;
+                    lastMovement = movement;
+                }
+                setMotor(lastMovement * speed);
+
+            }
+            else
+            {
+                isDeceleration = false;
+                isDecelerationRelease = false;
+                speed += aceleration;
+                if (speed >= maxSpeed)
+                    speed = maxSpeed;
+
+				 setMotor(movement * speed);
+               
+            }
+
+        }
+        else
+        {
+            if (isDeceleration)
+            {
+                isDecelerationRelease = true;
+            }
+            setUseMotor(false);
+        }
+
+    }
+	
 
 
 }
