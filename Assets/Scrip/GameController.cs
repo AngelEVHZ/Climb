@@ -8,9 +8,10 @@ public class GameController : MonoBehaviour {
 
 	public Sprite[] rampSprites;
 	public int spriteIndex = 0;
-	public Image imgObjSelected;
-	public GameObject EditModeCanvas;
+	public GameObject imgObjSelected;
 
+	public GameObject EditModeCanvas;
+	private bool setRampMode;
 
 	public float boardH = 6;
 	public float boardW = 2;
@@ -30,13 +31,23 @@ public class GameController : MonoBehaviour {
 		cameraNumber = cameras.Length;
 	}
 
-	void nextSprite(){
+	public void setRampModeOn(){
+		setRampMode=true;
+	}
+
+	public void nextSprite(){
 		spriteIndex++;
 		if (spriteIndex >= rampSprites.Length)
 			spriteIndex = 0;
 
-	}
+    }
+    public void previewSprite()
+    {
+        spriteIndex--;
+        if (spriteIndex < 0)
+            spriteIndex = (rampSprites.Length-1);
 
+    }
 	Vector3 getNewPos(){
 		Vector3 mp = cameras [1].ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0f));
 		float newX = Mathf.Floor (mp.x ) ;
@@ -44,44 +55,57 @@ public class GameController : MonoBehaviour {
 		return new Vector3 (newX, newY, 0f);
 	}
 
-	void rampEditor(){
-		if (editMode) {
-			EditModeCanvas.SetActive(true);
-			if (Input.GetKeyDown (KeyCode.X)) {
-				nextSprite ();
-				if (setRamp) {
-					newRamp.GetComponent<ObjController> ().setSprite(rampSprites[spriteIndex]);
-					newRamp.GetComponent<ObjController> ().updateCollider();
-				}
-			}
-			if (Input.GetMouseButtonDown (1)) {
-				if (setRamp) {
-					newRamp.transform.localScale = new Vector3 (newRamp.transform.localScale.x * -1f,1f,1f);
-				}
-			}
 
-			if (!setRamp) {
-				setRamp = true;
-				Vector3 newPos = getNewPos ();
-				newRamp = Instantiate (rampa, newPos, Quaternion.identity);
-				newRamp.GetComponent<ObjController> ().setSprite(rampSprites[spriteIndex]);
-				
-				
-			} else {
-				newRamp.transform.position = getNewPos();
-			}
-			if (Input.GetMouseButtonDown (0)) {
-				setRamp = false;
-			}
-		} else {
-			EditModeCanvas.SetActive(false);
-			if (setRamp) {
-				setRamp = false;
-				Destroy (newRamp);
-			}
-		}
-	
-	}
+
+    void rampEditor()
+    {
+        if (editMode)
+        {
+
+            if (!setRampMode)
+            {
+                EditModeCanvas.SetActive(true);
+                imgObjSelected.GetComponent<Image>().sprite = rampSprites[spriteIndex];
+                imgObjSelected.GetComponent<Image>().SetNativeSize();
+            }
+            else
+            {
+                EditModeCanvas.SetActive(false);
+                 if (Input.GetMouseButtonDown (1)) {
+                    if (setRamp) {
+						
+                        newRamp.transform.localScale = new Vector3 (newRamp.transform.localScale.x * -1f,1f,1f);
+                    }
+                }
+                if (!setRamp) {
+                    setRamp = true;
+                    Vector3 newPos = getNewPos ();
+                    newRamp = Instantiate (rampa, newPos, Quaternion.identity);
+                    newRamp.GetComponent<ObjController> ().setSprite(rampSprites[spriteIndex]);
+
+
+                } else {
+                    newRamp.transform.position = getNewPos();
+                }
+                if (Input.GetMouseButtonDown (0)) {
+					setRampMode=false;
+                    setRamp = false;
+                }
+
+
+            }
+        }
+        else
+        {
+            EditModeCanvas.SetActive(false);
+            if (setRamp)
+            {
+                setRamp = false;
+                Destroy(newRamp);
+            }
+        }
+
+    }
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Z)) {
