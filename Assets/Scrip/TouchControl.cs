@@ -20,4 +20,9 @@ public class TouchControl :MonoBehaviour {
 	public void breakOff(){
 		car.setTouchMovement(0);
 	}
+
+
+	public void jump(){
+		car.setTouchJump(true);
+	}
 }

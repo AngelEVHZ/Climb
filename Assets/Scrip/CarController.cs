@@ -22,7 +22,7 @@ public class CarController : MonoBehaviour {
 	public float maxSpeed=2500f;
 	private float movement = 0f;
 	private float touchMovement=0f;
-
+	private bool touchJump=false;
 	private float rotationSpeed = 0f;
 	public float jumpForce = 100f;
 	private bool jumpTime = false;
@@ -96,7 +96,8 @@ public class CarController : MonoBehaviour {
 		if (jump_timer >= 0f) {
 			jump_timer -= Time.deltaTime;
 		}
-		if (Input.GetKeyDown (KeyCode.Space)) {
+		if (Input.GetKeyDown (KeyCode.Space) || touchJump ) {
+			touchJump = false;
 			if (!jumpTime ) {
 				if(!carOnGround)
 					jumpTime = true;
@@ -125,6 +126,9 @@ public class CarController : MonoBehaviour {
 
 	public void setTouchMovement(float movement_){
 		touchMovement = movement_;
+	}
+	public void setTouchJump(bool jump_){
+		touchJump = jump_;
 	}
 
 	void Update () {
