@@ -13,8 +13,7 @@ public class CamaraController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		if (!carController.gameOver) {
-			Vector3 newPosition = target.transform.position;
-			newPosition.z = -10;
+			Vector3 newPosition =  new Vector3(target.transform.position.x,transform.position.y,-10f);
 			transform.position = newPosition;
 		}
 	}

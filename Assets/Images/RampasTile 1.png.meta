@@ -1,17 +1,15 @@
 fileFormatVersion: 2
-guid: b8660063fc8b02140adcbcce1694ed99
-timeCreated: 1552974590
+guid: 0dfc9c080530dee4591564733d170ab3
+timeCreated: 1553481772
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: rampas_0
-    21300002: rampas_1
-    21300004: rampas_2
-    21300006: rampas_3
-    21300008: rampas_4
-    21300010: rampas_5
-    21300012: rampas_6
-    21300014: rampas_7
+    21300000: RampasTile 1_0
+    21300002: RampasTile 1_1
+    21300004: RampasTile 1_2
+    21300006: RampasTile 1_3
+    21300008: RampasTile 1_4
+    21300010: RampasTile 1_5
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -86,104 +84,78 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: rampas_0
+      name: RampasTile 1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 440
-        width: 200
-        height: 160
+        x: 1
+        y: 675
+        width: 643
+        height: 155
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: rampas_1
+      name: RampasTile 1_1
       rect:
         serializedVersion: 2
-        x: 220
-        y: 440
-        width: 200
-        height: 120
+        x: 1
+        y: 302
+        width: 643
+        height: 308
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: rampas_2
+      name: RampasTile 1_2
       rect:
         serializedVersion: 2
-        x: 440
-        y: 438
-        width: 200
-        height: 124
+        x: 962
+        y: 352
+        width: 320
+        height: 151
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: rampas_3
+      name: RampasTile 1_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 360
-        width: 200
-        height: 60
+        x: 961
+        y: 257
+        width: 321
+        height: 85
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: rampas_4
+      name: RampasTile 1_4
       rect:
         serializedVersion: 2
-        x: 220
-        y: 260
-        width: 200
-        height: 160
+        x: 642
+        y: 93
+        width: 640
+        height: 153
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: rampas_5
+      name: RampasTile 1_5
       rect:
         serializedVersion: 2
-        x: 440
-        y: 361
-        width: 200
-        height: 62
-      alignment: 6
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: rampas_6
-      rect:
-        serializedVersion: 2
-        x: 0
+        x: 642
         y: 0
-        width: 365
-        height: 116
-      alignment: 6
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: rampas_7
-      rect:
-        serializedVersion: 2
-        x: 379
-        y: 0
-        width: 261
-        height: 195
+        width: 640
+        height: 84
       alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
