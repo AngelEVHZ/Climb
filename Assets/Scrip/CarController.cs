@@ -21,7 +21,8 @@ public class CarController : MonoBehaviour {
 	private float speed = 0;
 	public float maxSpeed=2500f;
 	private float movement = 0f;
-	private float rotation =0f;
+	private float touchMovement=0f;
+
 	private float rotationSpeed = 0f;
 	public float jumpForce = 100f;
 	private bool jumpTime = false;
@@ -122,13 +123,18 @@ public class CarController : MonoBehaviour {
 		rbWheelF.gravityScale = gravity;
 	}
 
-
+	public void setTouchMovement(float movement_){
+		touchMovement = movement_;
+	}
 
 	void Update () {
 
 		if (!isGameOver ()) {
+
+			
 			movement = -Input.GetAxisRaw ("Vertical");
-			rotation = Input.GetAxisRaw ("Horizontal");
+			if(movement==0f)movement = touchMovement;
+		
 		
 			checkOnGround ();
 			jump ();
