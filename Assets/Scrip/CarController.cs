@@ -41,7 +41,7 @@ public class CarController : MonoBehaviour {
 	private float lastMovement = 0f;
 	private bool isDeceleration = false;
 	private bool isDecelerationRelease = false;
-
+	private float maxRbSpeed = 7.4f;
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
@@ -161,56 +161,41 @@ public class CarController : MonoBehaviour {
     }
 	void Rotate(){
 		setUseMotor(false);
-		 rb.AddTorque(-movement * rotationSpeed * Time.fixedDeltaTime);
+		rb.AddTorque(-movement * rotationSpeed * Time.fixedDeltaTime);
 		
 	}
+
+
+
+
     void Run()
     {
-		
         if (movement != 0f)
         {
             setUseMotor(true);
-
             if (lastMovement != movement)
             {
-                isDeceleration = true;
-
                 if (rb.velocity.x > -1 && rb.velocity.x < 1) speed = 0;
-
-                if (isDecelerationRelease)
-                {
-                    speed = 0;
-                }
-
                 speed -= deceleration;
-
                 if (speed <= 0)
                 {
                     speed = 0;
                     lastMovement = movement;
                 }
                 setMotor(lastMovement * speed);
-
             }
             else
             {
-                isDeceleration = false;
-                isDecelerationRelease = false;
                 speed += aceleration;
                 if (speed >= maxSpeed)
                     speed = maxSpeed;
 
 				 setMotor(movement * speed);
-               
             }
-
         }
         else
         {
-            if (isDeceleration)
-            {
-                isDecelerationRelease = true;
-            }
+			speed = ( Mathf.Abs( rb.velocity.x) * maxSpeed) / maxRbSpeed;
             setUseMotor(false);
         }
 
