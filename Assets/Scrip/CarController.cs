@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class CarController : MonoBehaviour {
 	
+
+	public GameController gameController;
 	public WheelJoint2D wheelB;
 	public WheelJoint2D wheelF;
 
@@ -44,12 +46,20 @@ public class CarController : MonoBehaviour {
 	private bool isDecelerationRelease = false;
 	private float maxRbSpeed = 7.4f;
 	// Use this for initialization
+	public void initializationCar(GameController gameController_ ,GameObject startPosition_,GameObject endPoint_){
+		gameController =gameController_;
+		startPosition=startPosition_;
+		endPoint=endPoint_;
+	}
+
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
 	}
 
 	public void restart(){
-		transform.position = startPosition.transform.position;
+		gameController.activeEditMode();
+
+	
 	}
 
 	public void onGround(int wheelNumber, bool onGround){
@@ -69,6 +79,7 @@ public class CarController : MonoBehaviour {
 		if (gameOver) {
 			gameOverTimer -= Time.deltaTime;
 			if (gameOverTimer <= 0f) {
+				gameOverTimer = 1.5f;
 				restart ();
 				gameOver = false;
 			}
@@ -111,12 +122,6 @@ public class CarController : MonoBehaviour {
 		}
 	}
 
-	void test(){
-		if (Input.GetKeyDown (KeyCode.P)) {
-			SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
-		}
-
-	}
 
 	void setGravity(float gravity){
 		rb.gravityScale = gravity;
@@ -145,7 +150,7 @@ public class CarController : MonoBehaviour {
 
 		}
 
-		test ();
+		
 	}
 
 

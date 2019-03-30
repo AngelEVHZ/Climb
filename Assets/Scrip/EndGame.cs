@@ -8,6 +8,15 @@ public class EndGame : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D col){
 		//if(col.gameObject.tag != "Player")
 		//SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex);
-		gameObject.GetComponent<CarController>().restart();	
+		
+
+		if(col.gameObject.tag=="endFlag"){
+			gameObject.GetComponent<CarController>().gameOver=true;			
+
+		}	else
+		{
+			gameObject.GetComponent<CarController>().restart();
+			
+		}
 	}
 }
