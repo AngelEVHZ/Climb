@@ -15,17 +15,23 @@ public class WheelController : MonoBehaviour {
 	}
 
 	void OnCollisionStay2D(Collision2D obj){
-		if (obj.gameObject.tag == "ground") {
+		if (obj.gameObject.tag == "ground" || obj.gameObject.tag == "box") {
 			carController.onGround (wheelNumber,true);
 		}
 	}
 
 
 	void OnCollisionExit2D(Collision2D obj){
-		if (obj.gameObject.tag == "ground") {
+		if (obj.gameObject.tag == "ground" || obj.gameObject.tag == "box") {
 			carController.onGround (wheelNumber,false);
 		}
 
+	}
+
+	void OnCollisionEnter2D(Collision2D obj){
+		if (obj.gameObject.tag == "hammer" ) {
+			carController.gameOver = true;
+		}
 	}
 
 }

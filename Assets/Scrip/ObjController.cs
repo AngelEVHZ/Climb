@@ -5,32 +5,37 @@ using UnityEngine;
 public class ObjController : MonoBehaviour {
 
 
-	
-	private SpriteRenderer spriteR;
-	public Sprite sprite;
+	GameController gameController;
+	public int objNumber=0;
 
-	public PhysicsMaterial2D material;
-	// Use this for initialization
-	void Start () {
-		spriteR = GetComponent<SpriteRenderer> ();
-		spriteR.sprite = sprite;
-		Destroy(GetComponent<PolygonCollider2D>());
-		PolygonCollider2D polygon = gameObject.AddComponent<PolygonCollider2D>() as PolygonCollider2D;
-		polygon.sharedMaterial = material;
+/*
+
+1: large box
+2: box
+3: large ramp
+4: smal ramp
+5:hammer
+
+*/
+	public void setGameController(GameController gameController_){
+		gameController=gameController_;
+		switch(objNumber){
+			case 2:
+				GetComponent<ObjBox>().setGameController(gameController);
+			break;
+			case 5:
+				GetComponent<ObjHammer>().setGameController(gameController);
+			break;
+			case 6:
+				GetComponent<ObjBomb>().setGameController(gameController);
+			break;
+
+			default:
+			break;
+			;
+		}
+
 	}
 
-	public void setSprite(Sprite sprite_){
-		sprite = sprite_;
-	}
 
-	public void  updateCollider(){
-		spriteR.sprite = sprite;
-		Destroy(GetComponent<PolygonCollider2D>());
-		PolygonCollider2D polygon = gameObject.AddComponent<PolygonCollider2D>() as PolygonCollider2D;
-		polygon.sharedMaterial = material;
-	}
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
     //EDIT MODE
     public GameObject[] rampPrefab;
     public GameObject buttonSetRamp;
+     public GameObject buttonSwitchRamp;
     public Sprite[] rampSprites;
     public int spriteIndex = 0;
     public GameObject imgObjSelected;
@@ -34,7 +35,11 @@ public class GameController : MonoBehaviour
     public bool setRamp = false;
     public bool mouseRelease = false;
     private GameObject newRamp;
-
+    public float yCompensation = 1f;
+    public float xCompensation = 1f;
+    private bool switchRamp=false;
+     private int switchRampOn=1;
+  
 
 
 
@@ -55,6 +60,7 @@ public class GameController : MonoBehaviour
 	public GameObject startFlag;
 	public GameObject endFlag;
 	public GameObject endRoomPoint;
+    public bool playGame=false;
 
 
     void Start()
@@ -98,6 +104,11 @@ public class GameController : MonoBehaviour
         nextCamera();
     }
 
+
+    public void setSwitchRamp(){
+        switchRamp=true;
+        switchRampOn*=-1;
+    }
     public void setSetRampOk()
     {
         setRampOk = true;
@@ -124,8 +135,9 @@ public class GameController : MonoBehaviour
     Vector3 getNewPos()
     {
         Vector3 mp = cameras[1].ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f));
-        float newX = (mp.x);
-        float newY = (mp.y);
+
+        float newX = (Mathf.Ceil(mp.x)) - (xCompensation*switchRampOn) ; 
+        float newY = ( (Mathf.Ceil(mp.y )) -yCompensation);
         return new Vector3(newX, newY, 0f);
     }
 
@@ -148,8 +160,9 @@ public class GameController : MonoBehaviour
             else
             {
                 EditModeCanvas.SetActive(false);
-                if (Input.GetMouseButtonDown(1))
+                if (Input.GetMouseButtonDown(1) || switchRamp)
                 {
+                    switchRamp=false;
                     if (setRamp)
                     {
 
@@ -162,16 +175,17 @@ public class GameController : MonoBehaviour
                     setRamp = true;
                     Vector3 newPos = getNewPos();
                     newRamp = Instantiate(rampPrefab[spriteIndex], newPos, Quaternion.identity);
-                    //  newRamp.GetComponent<ObjController> ().setSprite(rampSprites[spriteIndex]);
+                    newRamp.GetComponent<ObjController>().setGameController(gameObject.GetComponent<GameController>());
 
                 }
 
                 if (Input.GetMouseButton(0))
                 {
-                      screenCamaraFolow();
+                     
 
                     if (!checkMousePos())
                     {
+                        screenCamaraFolow();
                         EditModeRampCanvas.SetActive(false);
                         newRamp.transform.position = getNewPos();
                     }
@@ -184,6 +198,7 @@ public class GameController : MonoBehaviour
 
                 if (setRampOk)
                 {
+                    switchRampOn=1;
                     setRampOk = false;
                     setRampMode = false;
                     setRamp = false;
@@ -220,9 +235,21 @@ public class GameController : MonoBehaviour
         
         float x = buttonSetRamp.GetComponent<RectTransform>().rect.width;
         float y = buttonSetRamp.GetComponent<RectTransform>().rect.height;
-        Vector2 position = new Vector2(buttonSetRamp.transform.position.x - (x / 2f), buttonSetRamp.transform.position.y + (y / 2f));
-        Vector2 position2 = new Vector2(buttonSetRamp.transform.position.x + (x / 2f), buttonSetRamp.transform.position.y - (y / 2f));
-        if ((Input.mousePosition.x >= position.x && Input.mousePosition.x <= position2.x) && (Input.mousePosition.y <= position.y && Input.mousePosition.y >= position2.y))
+        float x2 = buttonSwitchRamp.GetComponent<RectTransform>().rect.width;
+        float y2 = buttonSwitchRamp.GetComponent<RectTransform>().rect.height;
+
+
+        Vector2 position = new Vector2(buttonSetRamp.transform.position.x - (x / 1.5f), buttonSetRamp.transform.position.y + (y / 1.5f));
+        Vector2 position2 = new Vector2(buttonSetRamp.transform.position.x + (x / 1.5f), buttonSetRamp.transform.position.y - (y / 1.5f));
+
+         Vector2 position3 = new Vector2(buttonSwitchRamp.transform.position.x - (x2 / 1.5f), buttonSwitchRamp.transform.position.y + (y2 / 1.5f));
+        Vector2 position4 = new Vector2(buttonSwitchRamp.transform.position.x + (x2 / 1.5f), buttonSwitchRamp.transform.position.y - (y2 / 1.5f));
+        
+        if (   (Input.mousePosition.x >= position.x && Input.mousePosition.x <= position2.x) && (Input.mousePosition.y <= position.y && Input.mousePosition.y >= position2.y) )
+        {
+            return true;
+        }
+        else  if (   (Input.mousePosition.x >= position3.x && Input.mousePosition.x <= position4.x) && (Input.mousePosition.y <= position3.y && Input.mousePosition.y >= position4.y) )
         {
             return true;
         }
@@ -243,13 +270,15 @@ public class GameController : MonoBehaviour
             destroyPlayer();
             editMode = true;
             DriveControl.SetActive(false);
-
+            playGame=false;
         }
         else
         {
+            
            if(!player)restart();
             editMode = false;
             DriveControl.SetActive(true);
+            playGame=true;
         }
 
         rampEditor();

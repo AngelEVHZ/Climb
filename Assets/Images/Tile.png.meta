@@ -1,15 +1,13 @@
 fileFormatVersion: 2
-guid: 0dfc9c080530dee4591564733d170ab3
-timeCreated: 1553924019
+guid: 537e00b6a1145234c9ad393a6c001cdd
+timeCreated: 1554003155
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: RampasTile 1_0
-    21300002: RampasTile 1_1
-    21300004: RampasTile 1_2
-    21300006: RampasTile 1_3
-    21300008: RampasTile 1_4
-    21300010: RampasTile 1_5
+    21300000: Tile_0
+    21300002: Tile_1
+    21300004: Tile_2
+    21300006: Tile_3
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -84,79 +82,53 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RampasTile 1_0
+      name: Tile_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 677
-        width: 643
-        height: 155
-      alignment: 0
+        x: 0
+        y: 300
+        width: 400
+        height: 100
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: RampasTile 1_1
+      name: Tile_1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 302
-        width: 643
-        height: 308
-      alignment: 0
+        x: 0
+        y: 100
+        width: 100
+        height: 100
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: RampasTile 1_2
+      name: Tile_2
       rect:
         serializedVersion: 2
-        x: 962
-        y: 350
-        width: 320
-        height: 151
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: RampasTile 1_3
-      rect:
-        serializedVersion: 2
-        x: 961
-        y: 257
-        width: 321
-        height: 85
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: RampasTile 1_4
-      rect:
-        serializedVersion: 2
-        x: 642
-        y: 93
-        width: 640
-        height: 153
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: RampasTile 1_5
-      rect:
-        serializedVersion: 2
-        x: 642
+        x: 400
         y: 0
-        width: 640
-        height: 84
-      alignment: 0
+        width: 400
+        height: 200
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Tile_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 300
+        height: 100
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
