@@ -53,6 +53,7 @@ public class CarController : MonoBehaviour {
 	}
 
 	void Start () {
+	
 		rb = GetComponent<Rigidbody2D> ();
 	}
 

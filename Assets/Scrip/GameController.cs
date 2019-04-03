@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
 
+
     //CONTROLLER
     private GameControllerTouchControl touchController;
-	public CamaraController cameraController;
+
     
     //CANVAS
     public GameObject DriveControl;
@@ -26,7 +28,7 @@ public class GameController : MonoBehaviour
     public GameObject[] rampPrefab;
     public GameObject buttonSetRamp;
      public GameObject buttonSwitchRamp;
-    public Sprite[] rampSprites;
+    Sprite[] rampSprites;
     public int spriteIndex = 0;
     public GameObject imgObjSelected;
     private bool setRampMode;
@@ -50,6 +52,7 @@ public class GameController : MonoBehaviour
 
 
     // CAMERAS
+    public CinemachineVirtualCamera vcam;
     public Camera[] cameras;
     public int cameraIndex = 1;
     private int cameraNumber;
@@ -63,9 +66,20 @@ public class GameController : MonoBehaviour
     public bool playGame=false;
 
 
+    void updateRampsSprites(){
+        rampSprites = new Sprite[rampPrefab.Length];
+        int i=0;
+        foreach (GameObject ramp in rampPrefab)
+        {   
+            
+            rampSprites[i] = ramp.GetComponent<SpriteRenderer>().sprite;
+            i++;
+        }
+
+    }
     void Start()
     {
-
+        
         if(cameraIndex==0){
             cameras[0].gameObject.SetActive(true);
             cameras[1].gameObject.SetActive(false);
@@ -78,9 +92,11 @@ public class GameController : MonoBehaviour
         cameraNumber = cameras.Length;
 		player = Instantiate(car,startFlag.transform.position,  Quaternion.identity);
 		player.GetComponent<CarController>().initializationCar(gameObject.GetComponent<GameController>(),startFlag,endRoomPoint);
-		cameraController.setTarget(player);
+	
+        vcam.Follow = player.transform;
         touchController = gameObject.GetComponent<GameControllerTouchControl>();
         setTouchController();
+        updateRampsSprites();
 
     }
 
@@ -96,7 +112,8 @@ public class GameController : MonoBehaviour
         destroyPlayer();
         player = Instantiate(car,startFlag.transform.position,  Quaternion.identity);
 		player.GetComponent<CarController>().initializationCar(gameObject.GetComponent<GameController>(),startFlag,endRoomPoint);
-		cameraController.setTarget(player);
+
+         vcam.Follow = player.transform;
         setTouchController();
     }
     public void activeEditMode(){
@@ -116,6 +133,7 @@ public class GameController : MonoBehaviour
     public void setRampModeOn()
     {
         setRampMode = true;
+        setRampOk=false;
     }
 
     public void nextSprite()
@@ -179,10 +197,9 @@ public class GameController : MonoBehaviour
 
                 }
 
+
                 if (Input.GetMouseButton(0))
                 {
-                     
-
                     if (!checkMousePos())
                     {
                         screenCamaraFolow();
@@ -199,7 +216,7 @@ public class GameController : MonoBehaviour
                 if (setRampOk)
                 {
                     switchRampOn=1;
-                    setRampOk = false;
+                    
                     setRampMode = false;
                     setRamp = false;
                 }
@@ -239,11 +256,11 @@ public class GameController : MonoBehaviour
         float y2 = buttonSwitchRamp.GetComponent<RectTransform>().rect.height;
 
 
-        Vector2 position = new Vector2(buttonSetRamp.transform.position.x - (x / 1.5f), buttonSetRamp.transform.position.y + (y / 1.5f));
-        Vector2 position2 = new Vector2(buttonSetRamp.transform.position.x + (x / 1.5f), buttonSetRamp.transform.position.y - (y / 1.5f));
+        Vector2 position = new Vector2(buttonSetRamp.transform.position.x - (x / 1.9f), buttonSetRamp.transform.position.y + (y / 1.9f));
+        Vector2 position2 = new Vector2(buttonSetRamp.transform.position.x + (x / 1.9f), buttonSetRamp.transform.position.y - (y / 1.9f));
 
-         Vector2 position3 = new Vector2(buttonSwitchRamp.transform.position.x - (x2 / 1.5f), buttonSwitchRamp.transform.position.y + (y2 / 1.5f));
-        Vector2 position4 = new Vector2(buttonSwitchRamp.transform.position.x + (x2 / 1.5f), buttonSwitchRamp.transform.position.y - (y2 / 1.5f));
+         Vector2 position3 = new Vector2(buttonSwitchRamp.transform.position.x - (x2 / 1.9f), buttonSwitchRamp.transform.position.y + (y2 / 1.9f));
+        Vector2 position4 = new Vector2(buttonSwitchRamp.transform.position.x + (x2 / 1.9f), buttonSwitchRamp.transform.position.y - (y2 / 1.9f));
         
         if (   (Input.mousePosition.x >= position.x && Input.mousePosition.x <= position2.x) && (Input.mousePosition.y <= position.y && Input.mousePosition.y >= position2.y) )
         {

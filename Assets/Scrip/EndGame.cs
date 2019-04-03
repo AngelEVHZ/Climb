@@ -25,7 +25,12 @@ public class EndGame : MonoBehaviour {
         }
         else if (col.gameObject.tag == "hammer")
         {
-			 gameObject.GetComponent<CarController>().gameOver = true;
+			gameObject.GetComponent<CarController>().gameOver = true;             
+            Destroy(gameObject.GetComponent<CarController>().wheelB);
+		    gameObject.GetComponent<CarController>().wheelB = gameObject.AddComponent<WheelJoint2D>() as WheelJoint2D;
+            Destroy(gameObject.GetComponent<CarController>().wheelF);
+		    gameObject.GetComponent<CarController>().wheelF = gameObject.AddComponent<WheelJoint2D>() as WheelJoint2D;
+   
         }
         else
         {
